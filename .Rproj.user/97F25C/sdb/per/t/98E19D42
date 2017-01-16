@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(plotly)\n\n# Define UI for application that draws a histogram\nshinyUI(bootstrapPage(theme = \"bootstrap.css\",\n\n  # Application title\n  navbarPage(\"Support Incident Visualizer\", collapsible = TRUE,\n    tabPanel(\"Home\", icon = icon(\"home\"),\n      wellPanel(\n        helpText(h3(\"Visualize, Calculate, and Plan\"))\n      )\n    ), \n    tabPanel(\"Data\", icon = icon(\"file-text\"),\n      sidebarLayout(\n        sidebarPanel(\n          fileInput(\"file\", h3(\"Upload CSV File\"), accept=c(\"text/csv\", \"text/comma-separated-values,text/plain\", \".csv\")),\n          tags$hr(),\n          checkboxInput(\"header\", \"Header\", TRUE),\n          radioButtons(\"sep\", \"Separator\", c(Comma=','), ','),\n          tags$hr(),\n          uiOutput(\"dataModify\"),\n          uiOutput(\"columnName\"),\n          uiOutput(\"new_columnName\"),\n          uiOutput(\"updateButton\")\n        ),\n        mainPanel(\n          h3(textOutput(\"caption\")),\n          tableOutput('createTable')\n        )\n      )\n    ),         \n    tabPanel(\"Graph\", icon = icon(\"bar-chart\"),\n      \n      dateRangeInput(\"dateRange\", h3(\"Date Selection: \"), start=\"2016-10-24\", end=NULL, format=\"yyyy-mm-dd\", min=\"2016-10-24\", language = \"en\", width=\"100%\"),\n      fluidRow(column(6, verbatimTextOutput(\"date\"))),\n        \n        #Test table creation\n        #fluidRow(column(6,tableOutput('table'))),\n        \n      mainPanel(height = '100%', width = 12,\n        #graph the plot using plotly instead.\n        plotlyOutput(\"incidentPlot\"),\n        tags$br(),\n        wellPanel(\n          h3(\"Statistics\"),\n          tags$hr(),\n          fluidRow(column(1, tags$b(\"Mean :\")), \n                   column(3, verbatimTextOutput(\"meanCalculation\")),\n                   column(1, tags$b(\"Mode :\")), \n                   column(3, verbatimTextOutput(\"modeCalculation\")),\n                   column(1, tags$b(\"Median :\")), \n                   column(3, verbatimTextOutput(\"medianCalculation\"))),\n          fluidRow(column(2, tags$b(\"Total incident filtered by date :\")), \n                   column(2, verbatimTextOutput(\"totalIncidentRange\")),\n                   column(2, tags$b(\"Total incident filtered by month :\")), \n                   column(2, verbatimTextOutput(\"totalMonthly\"))\n                   )\n        )\n      )\n    ),\n    tabPanel(\"Table\", icon = icon(\"table\"),\n      sidebarLayout(\n        sidebarPanel(h3(\"Table Filter\"),\n          dateRangeInput(\"tabledateRange\", \"Date Selection: \", start=\"2016-10-24\", end=NULL, format=\"yyyy-mm-dd\", min=\"2016-10-24\", language = \"en\", width=\"100%\"),\n          fluidRow(column(6, verbatimTextOutput(\"tableDate\")))\n        ),\n        mainPanel(\n          fluidRow(column(6,DT::dataTableOutput('sltincidents')))\n        )\n      ) \n    )\n  )\n))\n\n\n\n",
+    "created" : 1483496651871.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "8499688",
+    "id" : "98E19D42",
+    "lastKnownWriteTime" : 1483599242,
+    "last_content_update" : 1483599242691,
+    "path" : "D:/R/SLT_APP/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

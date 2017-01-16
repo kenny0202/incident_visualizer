@@ -1,0 +1,13 @@
+{
+    "path" : "D:/R/SLT_APP",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        },
+        {
+            "ascending" : false,
+            "columnIndex" : 1
+        }
+    ]
+}

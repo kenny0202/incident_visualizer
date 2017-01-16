@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(plotly)\nlibrary(DT)\n#library(ggplot2)\n\nsource(\"R/functions.R\")\n\nshinyServer(function(input, output) {\n  \n  #HOME SECTION\n  \n  #END OF HOME\n  \n  #DATA SECTION\n  \n  #read in any csv file with specific format and will create a data frame in the variable csv_to_Table\n  #input any csv file\n  readFile <- reactive({\n    infile <- input$file\n    if (is.null(infile)){\n      return(NULL)      \n    }\n    csv_to_Table <- read.csv(infile$datapath, header=input$header, sep=input$sep)\n  })\n  \n  #using the reactive expression readFile(), take the result and generate the table.\n  output$createTable <- renderTable({\n    readFile()\n  })\n  \n  output$dataModify <- renderUI({\n    df <- readFile()\n    if (is.null(df)) \n      return(NULL)\n    h3(\"Data Modification\")\n  })\n  \n  output$columnName <- renderUI({\n    df <- readFile()\n    if (is.null(df)) \n      return(NULL)\n    items = names(df)\n    names(items) = items\n    selectInput(\"rename_column\", \"Select a column to rename\", items)\n  })\n  \n  output$new_columnName <- renderUI({\n    df <- readFile()\n    if (is.null(df)) \n      return(NULL)\n    items = names(df)\n    names(items) = items\n    textInput(\"new_column\",\"Enter new column name\",items)\n  })\n  \n  output$updateButton <- renderUI({\n    df <- readFile()\n    if (is.null(df)) \n      return(NULL)\n    items = names(df)\n    names(items) = items\n    submitButton(\"Update\")\n  })\n  #END OF DATA\n  \n  #GRAPH sECTION\n  \n  #date selection range\n  output$date <- renderPrint({input$dateRange})\n  \n  #read in the csv file.\n  #hardcode to read specific file\n  #slt <- reactive({\n  #read.csv(\"data/slt_inc.csv\")\n  #})\n  \n  #creating a subset of the original slt dataframe.\n  slt_subset <- reactive({\n    slt_sub <- subset(readFile(), as.Date(readFile()$date) >= input$dateRange[1] & as.Date(readFile()$date) <= input$dateRange[2])\n    return(slt_sub)\n  })\n  \n  #generate a graph using plotly library\n  output$incidentPlot <- renderPlotly({\n    plot_ly(y=(slt_subset()$num_of_inc), x=(slt_subset()$date), type=\"bar\", color = I(\"blue\")) %>% \n      layout(title=\"SLT Incidents\", xaxis = list(title=\"Date\"), yaxis = list(title=\"# of Incidents\"))\n  })\n  \n  #calculate the mean of incidents, average number\n  output$meanCalculation <- renderPrint({\n    mean(slt_subset()$num_of_inc)\n  })\n  \n  #calculate the mode of incidents\n  #mode is a custom function in R/functions.R, most occurrence\n  output$modeCalculation <- renderPrint({\n    mode(slt_subset()$num_of_inc)\n  })\n  \n  #calculate the median of the incidents, middle number\n  output$medianCalculation <- renderPrint({\n    median(slt_subset()$num_of_inc)\n  })\n  \n  #Calculate total number of incident specified within the date range filter.\n  output$totalIncidentRange <- renderPrint({\n    sum(slt_subset()$num_of_inc)\n  })\n  \n  #calculate total number of incident created within a month.\n  output$totalMonthly <- renderPrint({\n    \n  })\n  \n  #machine learning to estimate how many incidents will be created in the next month\n  output$estimatedMonthly <- renderPrint({\n    \n  })\n  #END OF GRAPH\n  \n  #TABLE SECTION\n  \n  #not yet working, may throw away this code\n  #output$tableDate <- renderPrint({input$tabledateRange})\n  \n  #generate a data table from the read in csv file\n  output$sltincidents <- DT::renderDataTable({readFile()})\n  \n  #END OF TABLE\n  \n  \n  \n  #test table creation in ui.R\n  #output$table <- renderTable({slt_subset()})\n  \n})\n",
+    "created" : 1483119148958.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "374817392",
+    "id" : "3793411D",
+    "lastKnownWriteTime" : 1483645127,
+    "last_content_update" : 1483645127042,
+    "path" : "C:/Users/I850366/Desktop/R_app/SLT_APP/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
