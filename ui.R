@@ -12,13 +12,23 @@ shinyUI(bootstrapPage(theme = "bootstrap.css",
   navbarPage("Support Incident Visualizer", collapsible = TRUE,
     tabPanel("Home", icon = icon("home"),
       wellPanel(
-        helpText(h4("Introduction"))
+        helpText(h4("Introduction")),
+        p("Copy and paste the test data below into a csv file or head over to the", strong("Data"),"tab"),
+        textOutput("text1"),
+        textOutput("text2"),
+        textOutput("text3"),
+        textOutput("text4"),
+        textOutput("text5"),
+        textOutput("text6")
       ),
       wellPanel(
         helpText(h4("Examples")),
         p("Below images are exmaples of newly created incidents coming in for a specific product."),
+        p("Example of loading a csv file containing the data."),
         img(src="siv.png", width="608"),
+        p("Visualizing the number of incidents within a specified date range."),
         img(src="siv2.png", width="608"),
+        p("Reading the number of incidents in a table format."),
         img(src="siv3.png", width="608")
       ),
       wellPanel(
@@ -33,9 +43,15 @@ shinyUI(bootstrapPage(theme = "bootstrap.css",
       sidebarLayout(
         sidebarPanel(
           fileInput("file", h3("Upload CSV File"), accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
-          p("Contents in the file must be in the following format:"),
-          p("This must be at the very top: 'date,day_of_week,num_of_inc'"),
-          p("The contents following the header must be in the following format: '2016-10-24,monday,5'"),
+          strong("Contents in the file must be in the following format:"),
+          br(),
+          strong("This must be at the very top:"),
+          br(),
+          h6("'date,day_of_week,num_of_inc'"),
+          br(),
+          strong("The contents following the header must be in the following format:"),
+          br(),
+          h6("'2016-10-24,monday,5'"),
           tags$hr(),
           checkboxInput("header", "Header", TRUE),
           radioButtons("sep", "Separator", c(Comma=','), ','),

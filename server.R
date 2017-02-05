@@ -8,7 +8,12 @@ source("R/functions.R")
 shinyServer(function(input, output) {
   
   #HOME SECTION
-  
+  output$text1 <- renderText(paste("date,day_of_week,num_of_inc"))
+  output$text2 <- renderText(paste("2016-10-24,monday,5"))
+  output$text3 <- renderText(paste("2016-10-25,tuesday,1"))
+  output$text4 <- renderText(paste("2016-10-26,wednesday,6"))
+  output$text5 <- renderText(paste("2016-10-27,thursday,7"))
+  output$text6 <- renderText(paste("2016-10-28,friday,2"))
   #END OF HOME
   
   #DATA SECTION
